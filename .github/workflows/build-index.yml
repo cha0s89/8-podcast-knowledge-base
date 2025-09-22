@@ -1,0 +1,27 @@
+name: Build index
+on:
+  push:
+    paths:
+      - "episodes/**"
+      - "catalog.csv"
+      - "transcripts/**"
+      - "scripts/**"
+  schedule:
+    - cron: "0 8 * * *"   # daily 08:00 UTC
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install python-frontmatter pyyaml
+      - run: python scripts/build_index.py
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update build/index.json"
+          file_pattern: "build/index.json"
