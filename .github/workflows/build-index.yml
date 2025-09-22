@@ -26,27 +26,13 @@ jobs:
 
       - name: Show tree (debug)
         run: |
-          echo "Repo structure:"
-          ls -la
-          echo
-          echo "episodes/:"
-          ls -la episodes || true
-          echo
-          echo "scripts/:"
-          ls -la scripts || true
+          echo "episodes/:"; ls -la episodes || true
+          echo "scripts/:"; ls -la scripts || true
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('scripts/**', 'requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
 
       - name: Install deps
         run: |
