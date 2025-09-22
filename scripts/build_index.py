@@ -9,7 +9,6 @@ OUT_DIR = ROOT / "build"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def parse_front_matter(text: str):
-    """Parse minimal YAML front matter delimited by '---'."""
     if text.startswith("---"):
         parts = text.split("---", 2)
         if len(parts) >= 3:
