@@ -1,1 +1,26 @@
+name: Fetch transcripts
+on:
+  schedule:
+    - cron: "0 9 * * *"   # daily 09:00 UTC
+  workflow_dispatch:
+  push:
+    paths:
+      - "sources.csv"
+      - "scripts/**"
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install youtube-transcript-api
+      - run: python scripts/fetch_transcripts.py
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update transcripts"
+          file_pattern: "transcripts/**"
 
